@@ -240,10 +240,10 @@ namespace iterator {
     class Iterable {
     public:
         explicit Iterable(T* Data, SIZE_T Size) : m_Data(Data), m_Size(Size) {}
-        Iterator<T> begin() { return Iterator<T>(m_Data); }
-        Iterator<T> end() { return Iterator<T>(m_Data + m_Size); }
-        ConstIterator<T> begin() const { return ConstIterator<T>(m_Data); }
-        ConstIterator<T> end() const { return ConstIterator<T>(m_Data + m_Size); }
+        [[nodiscard]] Iterator<T> begin() { return Iterator<T>(m_Data); }
+        [[nodiscard]] Iterator<T> end() { return Iterator<T>(m_Data + m_Size); }
+        [[nodiscard]] ConstIterator<T> begin() const { return ConstIterator<T>(m_Data); }
+        [[nodiscard]] ConstIterator<T> end() const { return ConstIterator<T>(m_Data + m_Size); }
 
     private:
         T* m_Data = nullptr;
@@ -254,10 +254,10 @@ namespace iterator {
     class ReverseIterable {
     public:
         explicit ReverseIterable(T* Data, SIZE_T Size) : m_Data(Data), m_Size(Size) {}
-        ReverseIterator<T> begin() { return ReverseIterator<T>(m_Data + m_Size - 1); }
-        ReverseIterator<T> end() { return ReverseIterator<T>(m_Data - 1); }
-        ReverseConstIterator<T> begin() const { return ReverseConstIterator<T>(m_Data + m_Size - 1); }
-        ReverseConstIterator<T> end() const { return ReverseConstIterator<T>(m_Data - 1); }
+        [[nodiscard]] ReverseIterator<T> begin() { return ReverseIterator<T>(m_Data + m_Size - 1); }
+        [[nodiscard]] ReverseIterator<T> end() { return ReverseIterator<T>(m_Data - 1); }
+        [[nodiscard]] ReverseConstIterator<T> begin() const { return ReverseConstIterator<T>(m_Data + m_Size - 1); }
+        [[nodiscard]] ReverseConstIterator<T> end() const { return ReverseConstIterator<T>(m_Data - 1); }
 
     private:
         T* m_Data = nullptr;
