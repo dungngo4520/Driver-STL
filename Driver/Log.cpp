@@ -1,13 +1,11 @@
 #include "Log.h"
 #include "Include.h"
 
-#include <stdarg.h>
+#include <stdarg.h>  // NOLINT(modernize-deprecated-headers)
 
-NTSTATUS log::DebugLogger::Initialize(_In_ PVOID Config)
+NTSTATUS log::DebugLogger::Initialize(_In_ const PVOID Config)
 {
-    PAGED_CODE()
-
-    auto ConfigPtr = static_cast<DebugLoggerConfig*>(Config);
+    const auto ConfigPtr = static_cast<DebugLoggerConfig*>(Config);
     if (ConfigPtr == nullptr) {
         return STATUS_INVALID_PARAMETER;
     }
@@ -49,7 +47,7 @@ void log::DebugLogger::Log(const LogLevel Level, const char* const Format, ...)
     va_end(Args);
 }
 
-NTSTATUS log::FileLogger::Initialize(_In_ PVOID Config)
+NTSTATUS log::FileLogger::Initialize(_In_ const PVOID Config)
 {
     UNREFERENCED_PARAMETER(Config);
     return NTSTATUS();

@@ -18,7 +18,7 @@ NTSTATUS strings::Clone(
     _In_ const PCUNICODE_STRING& Source,
     _In_ const memory::PoolType PoolType,
     _In_ const ULONG Tag,
-    _Out_opt_ PULONG BytesCopied
+    _Out_opt_ const PULONG BytesCopied
 )
 {
     if (BytesCopied)

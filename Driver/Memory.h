@@ -19,7 +19,6 @@ namespace memory {
 
     inline PVOID AllocPaged(const SIZE_T& Size, const ULONG& Tag)
     {
-        PAGED_CODE()
         return ExAllocatePool2(POOL_FLAG_PAGED, Size, Tag);
     }
 

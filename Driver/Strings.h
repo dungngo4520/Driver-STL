@@ -8,11 +8,11 @@ namespace strings {
     NTSTATUS Clone(
         _Outptr_result_maybenull_ PUNICODE_STRING& Destination,
         _In_ const PCUNICODE_STRING& Source,
-        _In_ const memory::PoolType PoolType,
-        _In_ const ULONG Tag,
+        _In_ memory::PoolType PoolType,
+        _In_ ULONG Tag,
         _Out_opt_ PULONG BytesCopied = nullptr
     );
-    VOID FreeClonedUnicodeString(_Inout_ PUNICODE_STRING& String, _In_ const ULONG Tag);
+    VOID FreeClonedUnicodeString(_Inout_ PUNICODE_STRING& String, _In_ ULONG Tag);
 
     class StringView : public memory::StackBuffer, public iterator::Iterable<WCHAR> {
     public:
