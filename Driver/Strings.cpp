@@ -38,6 +38,8 @@ NTSTATUS strings::Clone(
         case memory::PoolType::Paged:
             Destination = static_cast<PUNICODE_STRING>(memory::AllocPaged(BufferSize, Tag));
             break;
+        default:
+            return STATUS_INVALID_PARAMETER;
     }
 
     if (Destination == nullptr) {
@@ -83,7 +85,7 @@ bool strings::StringView::EndWith(
     }
 
     Iterable<const WCHAR> SuffixIterable(Suffix, SuffixSizeInChar);
-    auto it = begin() + static_cast<SIZE_T>(SizeInChar() - SuffixSizeInChar);
+    auto it = begin() + static_cast<int>(SizeInChar() - SuffixSizeInChar);
     for (auto itSuffix = SuffixIterable.begin(); itSuffix != SuffixIterable.end(); ++it, ++itSuffix) {
         if (CaseSensitive) {
             if (*it != *Suffix) {

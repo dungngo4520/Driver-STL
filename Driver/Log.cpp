@@ -23,7 +23,7 @@ NTSTATUS log::DebugLogger::Initialize(_In_ PVOID Config)
     Status =
         strings::Clone(m_Config.LogLevelValueName, ConfigPtr->LogLevelValueName, memory::PoolType::Paged, TAG_LOGGING);
     if (!NT_SUCCESS(Status)) {
-        strings::Free(m_Config.KeyPath, TAG_LOGGING);
+        strings::FreeClonedUnicodeString(m_Config.KeyPath, TAG_LOGGING);
         return Status;
     }
 
@@ -33,8 +33,8 @@ NTSTATUS log::DebugLogger::Initialize(_In_ PVOID Config)
 void log::DebugLogger::Destroy()
 {
     PAGED_CODE()
-    strings::Free(m_Config.KeyPath, TAG_LOGGING);
-    strings::Free(m_Config.LogLevelValueName, TAG_LOGGING);
+    strings::FreeClonedUnicodeString(m_Config.KeyPath, TAG_LOGGING);
+    strings::FreeClonedUnicodeString(m_Config.LogLevelValueName, TAG_LOGGING);
 }
 
 void log::DebugLogger::Log(const LogLevel Level, const char* const Format, ...)
