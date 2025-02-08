@@ -5,14 +5,21 @@
 #include "Memory.h"
 
 namespace strings {
+    NTSTATUS MakeEmpty(
+        _Outptr_result_buffer_maybenull_(ByteAllocated) PUNICODE_STRING& Destination,
+        _In_ ULONG SizeInChar,
+        _In_ memory::PoolType PoolType,
+        _In_ ULONG Tag,
+        _Out_opt_ PULONG ByteAllocated = nullptr
+    );
     NTSTATUS Clone(
-        _Outptr_result_maybenull_ PUNICODE_STRING& Destination,
+        _Outptr_result_buffer_maybenull_(BytesCopied) PUNICODE_STRING& Destination,
         _In_ const PCUNICODE_STRING& Source,
         _In_ memory::PoolType PoolType,
         _In_ ULONG Tag,
         _Out_opt_ PULONG BytesCopied = nullptr
     );
-    VOID FreeClonedUnicodeString(_Inout_ PUNICODE_STRING& String, _In_ ULONG Tag);
+    VOID Free(_Inout_updates_to_(nullptr, 0) PUNICODE_STRING& String, _In_ const ULONG Tag);
 
     class StringView : public memory::StackBuffer, public iterator::Iterable<WCHAR> {
     public:

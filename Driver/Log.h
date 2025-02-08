@@ -28,8 +28,11 @@ namespace log {
     class Logger {
     public:
         virtual ~Logger() = default;
-        virtual NTSTATUS Initialize(_In_ PVOID Config) = 0;
-        virtual void Destroy() = 0;
+        Logger() = default;
+        Logger(const Logger&) = delete;
+        Logger(Logger&&) = delete;
+        Logger& operator=(const Logger&) = delete;
+        Logger& operator=(Logger&&) = delete;
 
         template <typename... Args>
         void Error(const char* const Format, Args... args)
@@ -66,31 +69,14 @@ namespace log {
         PUNICODE_STRING KeyPath;
         PUNICODE_STRING LogLevelValueName;
     };
-    class DebugLogger : public Logger {
+    class DebugLogger final : public Logger {
     public:
-        NTSTATUS Initialize(_In_ PVOID Config) override;
-        void Destroy() override;
+        NTSTATUS Initialize(_In_ PVOID Config);
+        void Destroy();
 
     private:
         void Log(const LogLevel Level, const char* const Format, ...) override;
 
         DebugLoggerConfig m_Config = {};
-    };
-
-    struct FileLoggerConfig {
-        SIZE_T StructSize;
-        PUNICODE_STRING KeyPath;
-        PUNICODE_STRING LogLevelValueName;
-        PUNICODE_STRING LogFilePathValueName;
-    };
-    class FileLogger : public Logger {
-    public:
-        NTSTATUS Initialize(_In_ PVOID Config) override;
-        void Destroy() override;
-
-    private:
-        void Log(const LogLevel Level, const char* const Format, ...) override;
-
-        FileLoggerConfig m_Config = {};
     };
 }  // namespace log

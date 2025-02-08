@@ -60,12 +60,12 @@
     <ClCompile Include="Strings.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Defer.h" />
-    <ClInclude Include="Include.h" />
     <ClInclude Include="Iterator.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="Memory.h" />
     <ClInclude Include="Strings.h" />
+    <ClInclude Include="Synchronize.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

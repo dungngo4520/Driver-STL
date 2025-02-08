@@ -17,6 +17,7 @@ namespace memory {
         return ExAllocatePool2(POOL_FLAG_NON_PAGED, Size, Tag);
     }
 
+
     inline PVOID AllocPaged(const SIZE_T& Size, const ULONG& Tag)
     {
         return ExAllocatePool2(POOL_FLAG_PAGED, Size, Tag);
@@ -24,6 +25,21 @@ namespace memory {
 
     inline void Free(const PVOID& Ptr, const ULONG& Tag) { ExFreePoolWithTag(Ptr, Tag); }
 
+    inline PVOID ReAllocNonPaged(const PVOID& Ptr, const SIZE_T& Size, const ULONG& Tag)
+    {
+        if (Ptr) {
+            Free(Ptr, Tag);
+        }
+        return AllocNonPaged(Size, Tag);
+    }
+
+    inline PVOID ReAllocPaged(const PVOID& Ptr, const SIZE_T& Size, const ULONG& Tag)
+    {
+        if (Ptr) {
+            Free(Ptr, Tag);
+        }
+        return AllocPaged(Size, Tag);
+    }
 
     class Buffer {
     public:

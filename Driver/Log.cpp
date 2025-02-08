@@ -1,5 +1,5 @@
 #include "Log.h"
-#include "Include.h"
+#include "Strings.h"
 
 #include <stdarg.h>  // NOLINT(modernize-deprecated-headers)
 
@@ -21,7 +21,7 @@ NTSTATUS log::DebugLogger::Initialize(_In_ const PVOID Config)
     Status =
         strings::Clone(m_Config.LogLevelValueName, ConfigPtr->LogLevelValueName, memory::PoolType::Paged, TAG_LOGGING);
     if (!NT_SUCCESS(Status)) {
-        strings::FreeClonedUnicodeString(m_Config.KeyPath, TAG_LOGGING);
+        strings::Free(m_Config.KeyPath, TAG_LOGGING);
         return Status;
     }
 
@@ -30,14 +30,12 @@ NTSTATUS log::DebugLogger::Initialize(_In_ const PVOID Config)
 
 void log::DebugLogger::Destroy()
 {
-    PAGED_CODE()
-    strings::FreeClonedUnicodeString(m_Config.KeyPath, TAG_LOGGING);
-    strings::FreeClonedUnicodeString(m_Config.LogLevelValueName, TAG_LOGGING);
+    strings::Free(m_Config.KeyPath, TAG_LOGGING);
+    strings::Free(m_Config.LogLevelValueName, TAG_LOGGING);
 }
 
 void log::DebugLogger::Log(const LogLevel Level, const char* const Format, ...)
 {
-    PAGED_CODE()
     if (Level > m_LogLevel) {
         return;
     }
@@ -45,18 +43,4 @@ void log::DebugLogger::Log(const LogLevel Level, const char* const Format, ...)
     va_start(Args, Format);
     DbgPrint(Format, Args);
     va_end(Args);
-}
-
-NTSTATUS log::FileLogger::Initialize(_In_ const PVOID Config)
-{
-    UNREFERENCED_PARAMETER(Config);
-    return NTSTATUS();
-}
-
-void log::FileLogger::Destroy() {}
-
-void log::FileLogger::Log(const LogLevel Level, const char* const Format, ...)
-{
-    UNREFERENCED_PARAMETER(Level);
-    UNREFERENCED_PARAMETER(Format);
 }
