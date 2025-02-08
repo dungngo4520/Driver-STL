@@ -1,5 +1,7 @@
 #pragma once
-#include <wdm.h>
+#include <ntddk.h>
+
+#include "Memory.h"
 
 namespace log {
     enum class LogLevel : UINT8 {
@@ -27,8 +29,8 @@ namespace log {
 
     class Logger {
     public:
-        virtual ~Logger() = default;
         Logger() = default;
+        virtual ~Logger() = default;
         Logger(const Logger&) = delete;
         Logger(Logger&&) = delete;
         Logger& operator=(const Logger&) = delete;
@@ -37,25 +39,25 @@ namespace log {
         template <typename... Args>
         void Error(const char* const Format, Args... args)
         {
-            Log(LogLevel::Error, Format, args);
+            Log(LogLevel::Error, Format, args...);
         }
 
         template <typename... Args>
         void Warning(const char* const Format, Args... args)
         {
-            Log(LogLevel::Warning, Format, args);
+            Log(LogLevel::Warning, Format, args...);
         }
 
         template <typename... Args>
         void Info(const char* const Format, Args... args)
         {
-            Log(LogLevel::Info, Format, args);
+            Log(LogLevel::Info, Format, args...);
         }
 
         template <typename... Args>
         void Debug(const char* const Format, Args... args)
         {
-            Log(LogLevel::Debug, Format, args);
+            Log(LogLevel::Debug, Format, args...);
         }
 
     protected:
@@ -71,8 +73,14 @@ namespace log {
     };
     class DebugLogger final : public Logger {
     public:
+        DebugLogger() = default;
+        ~DebugLogger() override;
+        DebugLogger(DebugLogger&) = delete;
+        DebugLogger(DebugLogger&&) = delete;
+        DebugLogger& operator=(DebugLogger&) = delete;
+        DebugLogger& operator=(DebugLogger&&) = delete;
+
         NTSTATUS Initialize(_In_ PVOID Config);
-        void Destroy();
 
     private:
         void Log(const LogLevel Level, const char* const Format, ...) override;

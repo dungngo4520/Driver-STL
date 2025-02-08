@@ -41,6 +41,25 @@ namespace memory {
         return AllocPaged(Size, Tag);
     }
 
+    inline PVOID Alloc(const PoolType Type, const SIZE_T Size, const ULONG Tag)
+    {
+        switch (Type) {
+            case PoolType::Paged:
+                return AllocPaged(Size, Tag);
+            case PoolType::NonPaged:
+                return AllocNonPaged(Size, Tag);
+            default:
+                return nullptr;
+        }
+    }
+
+    template <PoolType Type, ULONG Tag>
+    class Alloctable {
+    public:
+        void* operator new(const size_t Size) { return Alloc(Type, Size, Tag); }
+        void operator delete(void* Ptr) { Free(Ptr, Tag); }
+    };
+
     class Buffer {
     public:
         [[nodiscard]] PVOID Ptr() const { return m_Buffer; }
@@ -105,3 +124,7 @@ namespace memory {
         ULONG m_Tag;
     };
 }  // namespace memory
+
+void* operator new(const size_t Size);
+void* operator new(const size_t Size, void* Ptr);
+void operator delete(void* Ptr, size_t);

@@ -3,6 +3,12 @@
 
 #include <stdarg.h>  // NOLINT(modernize-deprecated-headers)
 
+log::DebugLogger::~DebugLogger()
+{
+    strings::Free(m_Config.KeyPath, TAG_LOGGING);
+    strings::Free(m_Config.LogLevelValueName, TAG_LOGGING);
+}
+
 NTSTATUS log::DebugLogger::Initialize(_In_ const PVOID Config)
 {
     const auto ConfigPtr = static_cast<DebugLoggerConfig*>(Config);
@@ -26,12 +32,6 @@ NTSTATUS log::DebugLogger::Initialize(_In_ const PVOID Config)
     }
 
     return Status;
-}
-
-void log::DebugLogger::Destroy()
-{
-    strings::Free(m_Config.KeyPath, TAG_LOGGING);
-    strings::Free(m_Config.LogLevelValueName, TAG_LOGGING);
 }
 
 void log::DebugLogger::Log(const LogLevel Level, const char* const Format, ...)

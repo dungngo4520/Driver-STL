@@ -57,11 +57,13 @@
   <ItemGroup>
     <ClCompile Include="DriverEntry.cpp" />
     <ClCompile Include="Log.cpp" />
+    <ClCompile Include="Memory.cpp" />
     <ClCompile Include="Strings.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Iterator.h" />
     <ClInclude Include="Log.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="Memory.h" />
     <ClInclude Include="Strings.h" />
     <ClInclude Include="Synchronize.h" />

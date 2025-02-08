@@ -5,7 +5,7 @@
 
 namespace sync {
     template <class T>
-    using LockGuard = utils::ScopeGuard<T, &T::Acquire, &T::Release>;
+    using LockGuard = utils::ObjectScopeGuard<T, &T::Acquire, &T::Release>;
 
     class Lock {
     public:

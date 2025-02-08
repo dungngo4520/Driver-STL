@@ -2,17 +2,17 @@
 
 namespace utils {
     template <class T, void (T::*EnterFn)(), void (T::*ExitFn)()>
-    class ScopeGuard {
+    class ObjectScopeGuard {
     public:
-        explicit ScopeGuard(T &Lock) : m_Lock(Lock) { (m_Lock.*EnterFn)(); }
-        ~ScopeGuard() { (m_Lock.*ExitFn)(); }
+        explicit ObjectScopeGuard(T &Object) : m_Object(Object) { (m_Object.*EnterFn)(); }
+        ~ObjectScopeGuard() { (m_Object.*ExitFn)(); }
 
-        ScopeGuard(const ScopeGuard &) = delete;
-        ScopeGuard(ScopeGuard &&) = delete;
-        ScopeGuard &operator=(const ScopeGuard &) = delete;
-        ScopeGuard &operator=(ScopeGuard &&) = delete;
+        ObjectScopeGuard(const ObjectScopeGuard &) = delete;
+        ObjectScopeGuard(ObjectScopeGuard &&) = delete;
+        ObjectScopeGuard &operator=(const ObjectScopeGuard &) = delete;
+        ObjectScopeGuard &operator=(ObjectScopeGuard &&) = delete;
 
     private:
-        T &m_Lock;
+        T &m_Object;
     };
 }  // namespace utils
