@@ -36,17 +36,6 @@ NTSTATUS strings::MakeEmpty(
     return STATUS_SUCCESS;
 }
 
-/**
- * Clone a UNICODE_STRING to a new buffer. Output buffer will be allocated in one contiguous memory block.
- * The caller is responsible for freeing the buffer using the Free function.
- * @param Destination Destination PUNICODE_STRING. 
- * @param Source Source UNICODE_STRING will be cloned
- * @param PoolType The pool type to use for the allocation
- * @param Tag The tag to use for the allocation
- * @param BytesCopied The number of bytes copied to the destination buffer
- * @return STATUS_SUCCESS on success, an appropriate NTSTATUS error code otherwise
- * @note The Buffer member of the destination will be set to the address right after UNICODE_STRING struct.
- */
 NTSTATUS strings::Clone(
     _Outptr_result_maybenull_ PUNICODE_STRING& Destination,
     _In_ const PCUNICODE_STRING& Source,
